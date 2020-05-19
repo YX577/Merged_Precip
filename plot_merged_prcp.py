@@ -26,23 +26,88 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from config import get_colors, get_map_extent, get_cities
 
-# Parameters to modify to change map extent and dates
-
-# extent = 'glslr'  # entire Great Lakes - St. Lawrence basin
-extent = 'erislr'  # Lake Erie through St. Lawrence
-# extent = 'ontslr'  # Lake Ontario through St. Lawrence
-
 colors = 'capa'
 #colors = 'nws'
 
 # start and end date.  If equal, then 24 hrs plotted, otherwise cumulative 
-start_date = datetime(2020,1,25)
-end_date = start_date
-# end_date = datetime(2020,1,25)
+print('\n Bi-National Merged Precipitation Map  \n')
+print('=' * 50)
 
+def try_parsing_date(text):
+    for fmt in ('%Y-%m-%d', '%Y%m%d'):
+        try:
+            return datetime.strptime(text, fmt)
+        except ValueError:
+            pass
+    raise ValueError()
+
+
+valid = False
+while not valid:
+    print('''\nEnter start date (YYYY-MM-DD or YYYYMMDD) or 'q' to quit''')
+    start_date = input()
+    if start_date[0].lower() == 'q':
+        sys.exit()
+    try:
+        start_date = try_parsing_date(start_date)
+        valid = True
+    except ValueError:
+        print('\n Error: not a valid date format \n')
+        print('=' * 50)
+        valid = False
+
+valid = False
+while not valid:
+    print('''\nPress enter if same as start date, otherwise''')
+    print('''\nEnter end date (YYYY-MM-DD or YYYYMMDD) or 'q' to quit''')
+    end_date = input()
+    if end_date == '':
+        end_date = start_date
+        break
+    elif end_date[0].lower() == 'q':
+        sys.exit()
+    try:
+        end_date = try_parsing_date(end_date)
+        valid = True
+    except ValueError:
+        print('\n Error: not a valid date format \n')
+        print('=' * 50)
+        valid = False  
+
+print(start_date)
+print(end_date)
+
+valid = False
+
+while not valid:
+
+    print('''\nChoose map extent \n''')
+    print('''  1 : Great Lakes - St. Lawrence (glslr)''')
+    print('''  2 : Lake Erie - Ontario - St. Lawrence (erislr)''')
+    print('''  3 : Lake Ontario - St. Lawrence (ontslr)''')
+    print('''  4 : Custom - define in config file (custom)''')
+
+    extent = input('Enter number:')
+
+    if extent == str(1):
+        extent = 'glslr'  # entire Great Lakes - St. Lawrence basin
+        valid = True
+    elif extent == str(2):
+        extent = 'erislr'  # Lake Erie through St. Lawrence
+        valid = True
+    elif extent == str(3):
+        extent = 'ontslr'  # Lake Ontario through St. Lawrence
+        valid = True
+    elif extent == str(4):
+        extent = 'custom'
+        valid = True
+    else:
+        valid = False
+
+map_extent = get_map_extent(extent)
 
 # get additional parameters from config file
-map_extent = get_map_extent(extent)
+
 map_cities = get_cities(extent)
 map_colors = get_colors(colors)
 
@@ -187,7 +252,7 @@ ax.set_xlim(xmin, xmax)
 ax.set_ylim(ymin, ymax)
 
 ax.set_title('{}-Hour Accumulated Precipitation : Valid {} 12 UTC'.format(
-                str(hrs), start_date.strftime('%Y-%m-%d')))
+                str(hrs), end_date.strftime('%Y-%m-%d')))
 
 
 out_folder = local_folder / 'graphics'

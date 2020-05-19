@@ -90,11 +90,13 @@ def get_map_extent(map_extent):
     elif map_extent == 'ontslr':
         # Ontario through St. Lawrence
         bbox = {'xmin': -82, 'xmax': -69, 'ymin': 40, 'ymax': 51} 
-        
+    elif map_extent == 'custom':
+        bbox = {'xmin': -90, 'xmax': -74, 'ymin': 40, 'ymax': 47} 
     return bbox
 
 
 def get_cities(map_extent):
+    
     
     # depends on map extent 
     if map_extent == 'glslr':
@@ -110,6 +112,12 @@ def get_cities(map_extent):
     elif map_extent == 'ontslr':
         cities = ['Toronto', 'Buffalo', 'Rochester', 'Kingston', 
                   'Montreal', 'Ottawa']
+        
+    elif map_extent == 'custom':
+        cities = ['Sault Ste. Marie', 
+                  'Milwaukee', 'Chicago', 'Detroit', 'Cleveland', 'Buffalo', 
+                  'Toronto', 'Rochester', 'Kingston', 
+                  'Ottawa']
         
     return cities
     
