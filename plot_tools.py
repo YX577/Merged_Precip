@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Precip colors and bounds (ticks)
 
@@ -9,7 +7,7 @@ Precip colors and bounds (ticks)
 # Colors options
 
 # NWS colors
-nws_precip_colors = [
+NWS_PRECIP_COLORS = [
                     "#04e9e7",  # 0.01 - 0.10 inches
                     "#019ff4",  # 0.10 - 0.25 inches
                     "#0300f4",  # 0.25 - 0.50 inches
@@ -29,17 +27,17 @@ nws_precip_colors = [
                     ]
 
 # set bounds at specific precip totals for plotting with colors
-nws_bounds = [0.1, 0.5, 1.0, 2.5, 5.0,
+NWS_BOUNDS = [0.1, 0.5, 1.0, 2.5, 5.0,
           7.5, 10, 15, 20, 25,
           30, 40, 50, 75, 100,
           150]
 
-nws_colors = {"colors" : nws_precip_colors, 
-              "bounds" : nws_bounds}
+NWS_COLORS = {"colors" : NWS_PRECIP_COLORS, 
+              "bounds" : NWS_BOUNDS}
 
 
 # Canadian Precipitation Analysis colors
-capa_precip_colors = ['white', 
+CAPA_PRECIP_COLORS = ['white', 
                     "#98cbfe",  # 0.1
                     "#0098fe",  # 0.5
                     "#002dfe",  # 1.0
@@ -59,22 +57,20 @@ capa_precip_colors = ['white',
                     #"#fdfdfd"  # 150
                     ]
 
-capa_bounds = [0.0, 0.1, 0.5, 1.0, 2.5, 5.0,
+CAPA_BOUNDS = [0.0, 0.1, 0.5, 1.0, 2.5, 5.0,
           7.5, 10, 15, 20, 25,
           30, 40, 50, 75, 100,
           150, 250]
 
-capa_colors = {"colors" : capa_precip_colors, 
-               "bounds" : capa_bounds}
-
-
+CAPA_COLORS = {"colors" : CAPA_PRECIP_COLORS, 
+               "bounds" : CAPA_BOUNDS}
 
 
 def get_colors(colors):
     if colors == 'capa':
-        colors = capa_colors
+        colors = CAPA_COLORS
     elif colors == 'nws':
-        colors = nws_colors
+        colors = NWS_COLORS
     return colors
 
 
